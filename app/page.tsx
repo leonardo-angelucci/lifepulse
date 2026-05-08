@@ -50,6 +50,11 @@ export default function Home() {
       setSeconds(0);
     }
     return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+    useEffect(() => {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+}, []);
   }, [emergency]);
 
   const fmtTime = (s: number) => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
