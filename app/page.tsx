@@ -1,6 +1,8 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
+import { supabase } from '@/lib/supabase';
 
 const Mappa = dynamic(() => import('./components/Mappa'), { ssr: false });
 
@@ -34,6 +36,15 @@ function statusLabel(s: string) {
 }
 
 export default function Home() {
+  const router = useRouter();
+
+useEffect(() => {
+  const checkAuth = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) router.push('/login');
+  };
+  checkAuth();
+}, [router]);
   const { lat, lng, loading } = useGeolocation();
   const [tab, setTab] = useState<'panic'|'dae'|'info'>('panic');
   const [emergency, setEmergency] = useState(false);
@@ -152,7 +163,7 @@ export default function Home() {
                 { icon: '📞', label: 'Chiama 118', sub: 'Chiamata diretta', action: () => window.location.href = 'tel:118' },
                 { icon: '🏥', label: 'DAE Vicini',  sub: `${DAE_LIST.filter(d=>d.status==='active').length} disponibili`, action: () => setTab('dae') },
                 { icon: '📋', label: 'Guida RCP',   sub: 'Istruzioni passo-passo', action: () => setTab('info') },
-                { icon: '👤', label: 'Profilo',      sub: 'First Responder', action: () => {} },
+                { icon: '👤', label: 'Profilo', sub: 'First Responder', action: () => window.location.href = '/login' },
               ].map((a, i) => (
                 <button key={i} onClick={a.action} style={{ background: '#181c23', border: '1px solid #252b36', borderRadius: 10, padding: '12px 14px', cursor: 'pointer', textAlign: 'left', color: '#e8ecf0' }}>
                   <div style={{ fontSize: 20, marginBottom: 4 }}>{a.icon}</div>
