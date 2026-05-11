@@ -77,7 +77,7 @@ export default function Home() {
 
       {/* TOPBAR */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: '#111318', borderBottom: '1px solid #252b36' }}>
-        <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: 1, color: '#e63535' }}>LIFE<span style={{ color: '#e8ecf0' }}>PULSE</span></div>
+        <img src="/logo.jpg" alt="LifePulse" style={{ height: 32, borderRadius: 6 }} />
         <div style={{ fontSize: 11, color: '#22c97a', background: '#0a1f14', border: '1px solid rgba(34,201,122,.3)', borderRadius: 20, padding: '4px 10px' }}>● LIVE</div>
       </div>
 
